@@ -1,32 +1,28 @@
-def fetch_flask():
-    f=open("data_flask.txt", "r")
-    if f.mode == 'r':
-        contents =f.read()
-    g= open("Tact_Template.py","w+")
-    g.write(contents)
+from flask import Flask,render_template,request,send_file,send_from_directory
 
-def fetch_html():
-    f=open("data_html.txt", "r")
-    if f.mode == 'r':
-        contents =f.read()
-    g= open("Tact_Template.html","w+")
-    g.write(contents)
+app = Flask(__name__)
 
-print("Greetings!! ")
-print("Pls Specify Which File Template you would like to generate")
-print("\n1.Flask Template")
-print("\n2.HTML Template\n")
+@app.route('/') 
+def start():
+    return render_template('index.html')
 
-s=int(input())
+@app.route('/downloadflask')
+def download_file():
+	#path = "html2pdf.pdf"
+	#path = "info.xlsx"
+	path = "static/flask.py"
+	#path = "sample.txt"
+	return send_file(path, as_attachment=True)    
 
-if s==1:
-    fetch_flask()
-else:
-    if s==2:
-        fetch_html()
-    else:
-        print("Please Enter Valid Option")
+@app.route('/downloadhtml')
+def download_file2():
+	path = "static/html_template.html"
+	return send_file(path, as_attachment=True)   
 
+
+
+if __name__ == '__main__':
+  app.run(port=8080, debug=True)
 
 
 
